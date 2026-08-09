@@ -14,6 +14,10 @@ Skills 是让你的经验实现复利的关键：Prompts 是一次性调用，�
 
 [官网](https://staruhub.github.io/ClaudeSkills/) · [1.0.0 发布说明](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0) · [安全说明](SECURITY.md)
 
+<p align="center">
+  <img src="assets/social/agent-skills-concept-hero.png" alt="Agent Skills 概念图：把经验封装成可复用能力" width="100%">
+</p>
+
 ## 快速开始
 
 本项目和其他开源项目一样，都可以使用git clone指令进行克隆，比如 deck-studio：

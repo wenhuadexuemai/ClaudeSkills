@@ -14,6 +14,10 @@ A prompt lets a model do something once, then dies with the conversation; a skil
 
 [Website](https://staruhub.github.io/ClaudeSkills/) · [Release 1.0.0 notes](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0) · [Security](SECURITY.md)
 
+<p align="center">
+  <img src="assets/social/agent-skills-concept-hero.png" alt="Agent Skills concept: experience becomes reusable capability" width="100%">
+</p>
+
 ## Quick start
 
 Install one and try it — deck-studio, for example:
