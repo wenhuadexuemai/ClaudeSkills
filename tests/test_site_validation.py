@@ -1,6 +1,6 @@
 from pathlib import Path
+import json
 import sys
-import tempfile
 import unittest
 
 
@@ -15,133 +15,80 @@ class SiteValidationTests(unittest.TestCase):
         self.assertEqual(validate_site.validate_repo(REPO_ROOT), [])
 
     def test_release_version_is_synchronized(self) -> None:
-        self.assertEqual(
-            (REPO_ROOT / "VERSION").read_text(encoding="utf-8").strip(),
-            validate_site.RELEASE_VERSION,
-        )
-        for filename in ("README.md", "README.zh-CN.md"):
-            text = (REPO_ROOT / filename).read_text(encoding="utf-8")
-            self.assertIn(validate_site.RELEASE_URL, text)
-        for filename in validate_site.SITE_PAGES:
-            text = (REPO_ROOT / "site" / filename).read_text(encoding="utf-8")
-            self.assertIn(
-                f'<meta name="version" content="{validate_site.RELEASE_VERSION}">',
-                text,
-            )
-            self.assertIn(validate_site.RELEASE_URL, text)
-
-    def test_release_validation_rejects_wrong_version_and_missing_links(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            repo_root = Path(directory)
-            (repo_root / "VERSION").write_text("1.0.1\n", encoding="utf-8")
-            (repo_root / "CHANGELOG.md").write_text(
-                "## [1.0.1] — unreleased\n",
-                encoding="utf-8",
-            )
-            for filename in ("README.md", "README.zh-CN.md"):
-                (repo_root / filename).write_text(
-                    f"{validate_site.EXPECTED_SITE_URL}\n",
-                    encoding="utf-8",
-                )
-
-            release_errors = validate_site.validate_release_version(repo_root)
-            readme_errors = validate_site.validate_readmes(repo_root)
-
-        self.assertTrue(any("expected '1.0.0'" in error for error in release_errors))
-        self.assertTrue(
-            any("missing release 1.0.0 link" in error for error in readme_errors)
+        self.assertEqual((REPO_ROOT / "VERSION").read_text().strip(), "1.0.0")
+        package = json.loads((REPO_ROOT / "website" / "package.json").read_text())
+        self.assertEqual(package["version"], "1.0.0")
+        self.assertIn(
+            '<meta name="version" content="1.0.0"',
+            (REPO_ROOT / "website" / "index.html").read_text(encoding="utf-8"),
         )
 
-    def test_agent_skills_positioning_is_cross_client(self) -> None:
-        for filename in ("README.md", "README.zh-CN.md"):
-            text = (REPO_ROOT / filename).read_text(encoding="utf-8")
-            for marker in validate_site.AGENT_SKILLS_MARKERS:
-                self.assertIn(marker, text)
-            for phrase in validate_site.LEGACY_EXCLUSIVE_POSITIONING[filename]:
-                self.assertNotIn(phrase, text)
+    def test_site_is_cross_client_and_not_claude_code_only(self) -> None:
+        source = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (REPO_ROOT / "website" / "src").rglob("*.tsx")
+        )
+        self.assertIn("Agent Skills 开放规范", source)
+        self.assertIn("any compatible agent", source)
+        self.assertNotIn("SKILL 2.0", source)
 
-        for filename in validate_site.SITE_PAGES:
-            text = (REPO_ROOT / "site" / filename).read_text(encoding="utf-8")
-            for marker in validate_site.AGENT_SKILLS_MARKERS:
-                self.assertIn(marker, text)
-            for phrase in validate_site.LEGACY_EXCLUSIVE_POSITIONING[filename]:
-                self.assertNotIn(phrase, text)
-
-    def test_chaogeek_design_contract_stays_coherent(self) -> None:
-        css = (REPO_ROOT / "site" / "styles.css").read_text(encoding="utf-8")
-        self.assertIn("--accent: #2240f0", css)
-        self.assertIn("--signal: #ff4444", css)
-        self.assertIn("--terminal: #0d1117", css)
-        self.assertNotIn("--green-", css)
-        self.assertNotIn('a[href="#evidence"] {\n    display: none', css)
-
-        chinese = (REPO_ROOT / "site" / "zh-CN.html").read_text(
+    def test_runtime_dependencies_stay_minimal(self) -> None:
+        package = json.loads(
+            (REPO_ROOT / "website" / "package.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(set(package["dependencies"]), {"react", "react-dom"})
+        lock = (REPO_ROOT / "website" / "package-lock.json").read_text(
             encoding="utf-8"
         )
-        self.assertIn(
-            '<span class="hero-title-line">让 Agent 做事，</span>',
-            chinese,
-        )
-        self.assertIn(
-            '<span class="hero-title-line hero-title-accent">有章法。</span>',
-            chinese,
-        )
-        self.assertIn("OPEN AGENT SKILLS · 13 SKILLS ·", chinese)
-        self.assertNotIn('class="release-pill"', chinese)
-        for asset in (
-            "assets/masthead-pixels.png",
-            "assets/proof-pixels.png",
-            "fonts/noto-sans-sc-900.woff2",
-            "fonts/jetbrains-mono-400.woff2",
-        ):
-            self.assertTrue((REPO_ROOT / "site" / asset).is_file(), asset)
-        for filename in validate_site.SITE_PAGES:
-            page = (REPO_ROOT / "site" / filename).read_text(encoding="utf-8")
-            self.assertIn('class="language-switch"', page)
-            self.assertIn('class="artifact-index"', page)
-            self.assertIn('class="capability-preview"', page)
-            self.assertIn('class="section-rail', page)
+        self.assertNotIn("kimi-plugin-inspect-react", lock)
+        self.assertNotIn("react-router", lock)
+        self.assertNotIn("npm.mirrors.msh.team", lock)
 
-    def test_mobile_navigation_and_title_regressions_stay_fixed(self) -> None:
-        css = (REPO_ROOT / "site" / "styles.css").read_text(encoding="utf-8")
-        self.assertIn("--header-offset:", css)
-        self.assertIn("scroll-margin-top: var(--header-offset)", css)
-        self.assertIn("overflow-x: auto", css)
-        self.assertIn("white-space: nowrap", css)
-        self.assertIn("--focus: #2240f0", css)
-        self.assertIn('html[lang="zh-CN"] h1', css)
-        self.assertIn("letter-spacing: 0", css)
-
-        chinese = (REPO_ROOT / "site" / "zh-CN.html").read_text(
+    def test_project_site_assets_are_base_path_safe(self) -> None:
+        tracks = (REPO_ROOT / "website" / "src" / "sections" / "Tracks.tsx").read_text(
             encoding="utf-8"
         )
-        self.assertIn(
-            '<span class="hero-title-line">让 Agent 做事，</span>',
-            chinese,
-        )
-        self.assertNotIn("让 Agent 按工作流<br>把活做完。", chinese)
+        showcase = (
+            REPO_ROOT / "website" / "src" / "sections" / "Showcase.tsx"
+        ).read_text(encoding="utf-8")
+        self.assertIn("import.meta.env.BASE_URL", tracks)
+        self.assertIn("import.meta.env.BASE_URL", showcase)
+        self.assertNotIn('src="/panel-', showcase)
 
-        for filename in validate_site.SITE_PAGES:
-            page = (REPO_ROOT / "site" / filename).read_text(encoding="utf-8")
-            self.assertIn('class="capability-note"', page)
+    def test_mobile_and_accessibility_guards_are_present(self) -> None:
+        home = (REPO_ROOT / "website" / "src" / "pages" / "Home.tsx").read_text(
+            encoding="utf-8"
+        )
+        header = (
+            REPO_ROOT / "website" / "src" / "sections" / "Header.tsx"
+        ).read_text(encoding="utf-8")
+        install = (
+            REPO_ROOT / "website" / "src" / "sections" / "Install.tsx"
+        ).read_text(encoding="utf-8")
+        closing = (
+            REPO_ROOT / "website" / "src" / "sections" / "Closing.tsx"
+        ).read_text(encoding="utf-8")
+        css = (REPO_ROOT / "website" / "src" / "index.css").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('id="main-content"', home)
+        self.assertIn("document.documentElement.lang", home)
+        self.assertIn("hidden sm:flex", header)
+        self.assertIn("min-w-0", install)
+        self.assertIn("break-all", install)
+        self.assertIn("flex flex-wrap", closing)
+        self.assertIn("prefers-reduced-motion", css)
+        self.assertIn("focus-visible", css)
 
-    def test_invalid_fixture_fails_for_project_path_and_contract(self) -> None:
-        fixture = REPO_ROOT / "tests" / "fixtures" / "site-invalid"
-        errors = validate_site.validate_repo(fixture)
-
-        self.assertTrue(errors)
-        self.assertTrue(
-            any("root-relative asset path" in error for error in errors),
-            errors,
+    def test_pull_request_validation_builds_the_site_first(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "validate.yml").read_text(
+            encoding="utf-8"
         )
-        self.assertTrue(
-            any("canonical website link" in error for error in errors),
-            errors,
-        )
-        self.assertTrue(
-            any("path: ./site" in error for error in errors),
-            errors,
-        )
+        build_index = workflow.index("npm run build")
+        validation_index = workflow.index("python3 scripts/validate_site.py")
+        self.assertIn("actions/setup-node@v6", workflow)
+        self.assertIn("npm ci", workflow)
+        self.assertLess(build_index, validation_index)
 
 
 if __name__ == "__main__":

@@ -13,12 +13,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: website/package-lock.json
 
       - name: Structural assertions (validate.py)
         run: python3 scripts/validate.py
 
       - name: Routing eval consistency (run_routing_evals.py)
         run: python3 scripts/run_routing_evals.py
+
+      - name: Install website dependencies
+        working-directory: website
+        run: npm ci
+
+      - name: Type-check website
+        working-directory: website
+        run: npm run lint
+
+      - name: Build website
+        working-directory: website
+        run: npm run build
 
       - name: Static site assertions (validate_site.py)
         run: python3 scripts/validate_site.py

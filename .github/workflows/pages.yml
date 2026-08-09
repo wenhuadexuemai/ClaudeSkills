@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "site/**"
+      - "website/**"
       - "VERSION"
       - "README.md"
       - "README.zh-CN.md"
@@ -34,7 +34,26 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate static site
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install website dependencies
+        working-directory: website
+        run: npm ci
+
+      - name: Type-check website
+        working-directory: website
+        run: npm run lint
+
+      - name: Build website
+        working-directory: website
+        run: npm run build
+
+      - name: Validate production website
         run: python3 scripts/validate_site.py
 
       - name: Configure Pages
@@ -43,7 +62,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./site
+          path: ./website/dist
 
   deploy:
     needs: build

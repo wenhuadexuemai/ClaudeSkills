@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  a,
+  button {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5d5294] focus-visible:ring-offset-2;
+  }
+}
+@layer base {
+  html {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes arc-draw {
+  from {
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.arc-draw {
+  stroke-dasharray: 600;
+  animation: arc-draw 1.6s ease-out both;
+}
+
+/* --- ClaudeSkills signature elements --- */
+@keyframes pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@keyframes hue {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -4%, 0) scale(1.08); }
+}
+
+@keyframes trace {
+  0% { top: 0; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.trace-bar {
+  height: 44px;
+  animation: trace 5.5s linear infinite;
+}
+
+@keyframes fill {
+  from { width: 0; }
+}
+
+.fill-bar {
+  animation: fill 1.4s ease-out;
+}
+
+/* fluted glass overlay */
+.flute::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(90deg,
+    rgba(255,255,255,.72) 0px,
+    rgba(255,255,255,.30) 4px,
+    rgba(255,255,255,.04) 9px,
+    rgba(0,0,0,.05) 14px,
+    rgba(0,0,0,.16) 20px,
+    rgba(0,0,0,.07) 23px,
+    rgba(255,255,255,.72) 26px);
+  pointer-events: none;
+}
+
+.flute::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.02) 46%, rgba(0,0,0,.12)),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.22) 0 1px, rgba(255,255,255,0) 1px 26px);
+  pointer-events: none;
+}
+
+.shapes {
+  position: absolute;
+  inset: -24%;
+  z-index: 0;
+  filter: blur(16px) saturate(1.2);
+}
+
+.shapes span {
+  position: absolute;
+  display: block;
+}
+
+/* flowing light across glass on hover */
+@keyframes sheen {
+  from { transform: translateX(-75%) skewX(-10deg); }
+  to { transform: translateX(75%) skewX(-10deg); }
+}
+
+.glass-sheen {
+  position: absolute;
+  inset: -30% -55%;
+  z-index: 2;
+  background: linear-gradient(100deg,
+    transparent 40%,
+    rgba(255,255,255,.18) 46%,
+    rgba(255,255,255,.6) 50%,
+    rgba(255,255,255,.18) 54%,
+    transparent 60%);
+  transform: translateX(-75%) skewX(-10deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.group:hover .glass-sheen {
+  opacity: 1;
+  animation: sheen 1.7s ease-in-out infinite;
+}
+
+/* live-trace ellipsis dots */
+.trace-dots i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(22,22,26,.42);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.trace-dots i:nth-child(2) { animation-delay: .2s; }
+.trace-dots i:nth-child(3) { animation-delay: .4s; }
+
+@media (max-width: 640px) {
+  #evidence .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #evidence .evidence-head {
+    display: none;
+  }
+
+  #evidence .evidence-row {
+    gap: 0.4rem;
+  }
+
+  #evidence .evidence-row > span:nth-child(2)::before,
+  #evidence .evidence-row > span:nth-child(3)::before {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  #evidence .evidence-row > span:nth-child(2)::before {
+    content: '已验 / CHECKED';
+    color: #0f8f5b;
+  }
+
+  #evidence .evidence-row > span:nth-child(3)::before {
+    content: '未验 / NOT CHECKED';
+    color: rgba(22, 22, 26, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  canvas {
+    display: none;
+  }
+}
