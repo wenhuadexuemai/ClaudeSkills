@@ -4,14 +4,29 @@
 
 ## [Unreleased]
 
-### Agent Skills 定位纠偏
+## [1.0.1] — 2026-08-12
 
-- 官网与双语 README 改以开放的 Agent Skills 格式和跨客户端复用为主语，
+站点/文档补丁发布，仓库版本契约从 1.0.0 同步到 1.0.1。
+
+### 站点与文档
+
+- Agent Skills 定位纠偏：官网与双语 README 改以开放的 Agent Skills 格式和跨客户端复用为主语，
   不再把项目描述成 Claude Code 专属工作流集合。
 - 默认安装目录改为跨客户端约定的 `.agents/skills/`；Claude Code 保留为
   `--client claude-code` 显式兼容目标。
 - 示例调用改用自然语言，避免把某个客户端的斜杠命令误写成 Agent Skills 标准能力。
 - 安全说明改为宿主 Agent 的工具与权限模型，并明确不同客户端的能力边界不同。
+- Kimi React Pages 网站重新设计（[#11](https://github.com/staruhub/ClaudeSkills/pull/11)）：精简信息架构，移除过大的营销标题，
+  采用紧凑的技术产品布局。
+- 双语 README 概念 hero 图更新（[#10](https://github.com/staruhub/ClaudeSkills/pull/10)）：说明"经验→可复用能力"的 Agent Skills 定位。
+- 仓库发布版本契约同步到 1.0.1：VERSION、package.json、index.html meta、Header/Hero 组件、
+  validate_site.py 和测试断言全部对齐。
+
+### 不变更
+
+- Skill `SKILL.md` frontmatter 版本保持不变
+- Skill schema_version 常量保持不变
+- 依赖项版本和 CVE 基线保持不变
 
 ## [1.0.0] — 2026-08-03
 

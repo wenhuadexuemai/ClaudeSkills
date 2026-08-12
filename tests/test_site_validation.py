@@ -15,11 +15,11 @@ class SiteValidationTests(unittest.TestCase):
         self.assertEqual(validate_site.validate_repo(REPO_ROOT), [])
 
     def test_release_version_is_synchronized(self) -> None:
-        self.assertEqual((REPO_ROOT / "VERSION").read_text().strip(), "1.0.0")
+        self.assertEqual((REPO_ROOT / "VERSION").read_text().strip(), "1.0.1")
         package = json.loads((REPO_ROOT / "website" / "package.json").read_text())
-        self.assertEqual(package["version"], "1.0.0")
+        self.assertEqual(package["version"], "1.0.1")
         self.assertIn(
-            '<meta name="version" content="1.0.0"',
+            '<meta name="version" content="1.0.1"',
             (REPO_ROOT / "website" / "index.html").read_text(encoding="utf-8"),
         )
 
