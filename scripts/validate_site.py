@@ -10,7 +10,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 
-RELEASE_VERSION = "1.0.0"
+RELEASE_VERSION = "1.0.1"
 RELEASE_URL = f"https://github.com/staruhub/ClaudeSkills/releases/tag/{RELEASE_VERSION}"
 EXPECTED_SITE_URL = "https://staruhub.github.io/ClaudeSkills/"
 REPOSITORY_URL = "https://github.com/staruhub/ClaudeSkills"
@@ -254,7 +254,7 @@ def main() -> int:
             print(f"ERROR: {error}")
         print(f"SITE VALIDATION FAIL ({len(errors)} errors)")
         return 1
-    print("validated Kimi source, production build, release 1.0.0, and Pages workflow")
+    print("validated Kimi source, production build, release 1.0.1, and Pages workflow")
     print("SITE VALIDATION PASS")
     return 0
 

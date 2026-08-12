@@ -7,12 +7,12 @@ ClaudeSkills 是一个 Agent Skills 合集：13 个按标准 `SKILL.md` 格式�
 Skills 是让你的经验实现复利的关键：Prompts 是一次性调用，而 Skills 实现了能力的可持续复用。 本项目基于对 Multi-Agents 架构的深度理解而构建，旨在最大限度地发挥 Agent 的潜力。感谢社区的鞭策与喜爱，这是我们持续维护和迭代的动力。目前，本项目中的技能已被多个 Skill Hub 类网站收录，方便您在不同平台同步使用。
 
 [![validate](https://github.com/staruhub/ClaudeSkills/actions/workflows/validate.yml/badge.svg)](https://github.com/staruhub/ClaudeSkills/actions/workflows/validate.yml)
-[![release](https://img.shields.io/badge/release-1.0.0-2746d8)](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0)
+[![release](https://img.shields.io/badge/release-1.0.1-2746d8)](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.1)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 **目录**：[快速开始](#快速开始) · [Skill 列表](#skill-列表) · [验证](#验证) · [安装选项](#安装选项) · [贡献](#贡献)
 
-[官网](https://staruhub.github.io/ClaudeSkills/) · [1.0.0 发布说明](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0) · [安全说明](SECURITY.md)
+[官网](https://staruhub.github.io/ClaudeSkills/) · [1.0.1 发布说明](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.1) · [安全说明](SECURITY.md)
 
 <p align="center">
   <img src="assets/social/agent-skills-concept-hero.png" alt="Agent Skills 概念图：把经验封装成可复用能力" width="100%">

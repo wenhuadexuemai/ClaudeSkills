@@ -33,7 +33,7 @@ export default function Hero({ lang }: { lang: Lang }) {
           style={{ color: ACC, fontFamily: "'JetBrains Mono', monospace", animationDelay: '0.1s' }}
         >
           <span className="h-[5px] w-[5px] animate-[pulse_2s_ease-in-out_infinite] rounded-full" style={{ background: ACC }} />
-          {pick(lang, '13 个精选技能 · 4 大旗舰 · 91 个路由用例 · MIT 开源', 'Open Agent Skills · 13 curated · v1.0.0')}
+          {pick(lang, '13 个精选技能 · 4 大旗舰 · 91 个路由用例 · MIT 开源', 'Open Agent Skills · 13 curated · v1.0.1')}
         </div>
 
         <h1

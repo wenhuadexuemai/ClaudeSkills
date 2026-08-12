@@ -27,12 +27,12 @@ export default function Header({ lang, setLang }: { lang: Lang; setLang: (l: Lan
           <span className="text-[15px] font-semibold tracking-tight text-[#16161a]">ClaudeSkills</span>
         </a>
         <a
-          href="https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0"
-          aria-label="ClaudeSkills 1.0.0 release"
+          href="https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.1"
+          aria-label="ClaudeSkills 1.0.1 release"
           className="rounded px-1.5 py-1 text-[10px] font-medium"
           style={{ background: '#efedfa', color: '#4c4381', fontFamily: "'JetBrains Mono', monospace" }}
         >
-          v1.0.0
+          v1.0.1
         </a>
       </div>
 

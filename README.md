@@ -7,12 +7,12 @@ ClaudeSkills is a collection of Agent Skills: 13 skill packages written in the o
 A prompt lets a model do something once, then dies with the conversation; a skill keeps the method around, so it can be reused, inspected, and improved.
 
 [![validate](https://github.com/staruhub/ClaudeSkills/actions/workflows/validate.yml/badge.svg)](https://github.com/staruhub/ClaudeSkills/actions/workflows/validate.yml)
-[![release](https://img.shields.io/badge/release-1.0.0-2746d8)](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0)
+[![release](https://img.shields.io/badge/release-1.0.1-2746d8)](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.1)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 **Contents**: [Quick start](#quick-start) · [Skills](#skills) · [Verification](#verification) · [Install options](#install-options) · [Contributing](#contributing)
 
-[Website](https://staruhub.github.io/ClaudeSkills/) · [Release 1.0.0 notes](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.0) · [Security](SECURITY.md)
+[Website](https://staruhub.github.io/ClaudeSkills/) · [Release 1.0.1 notes](https://github.com/staruhub/ClaudeSkills/releases/tag/1.0.1) · [Security](SECURITY.md)
 
 <p align="center">
   <img src="assets/social/agent-skills-concept-hero.png" alt="Agent Skills concept: experience becomes reusable capability" width="100%">
